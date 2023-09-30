@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<body>
+
+    <form>
+        <input type="text" id="text" autofocus>
+        <button id="btn">버튼</button>
+    </form>
+
+    <div id="img" style="margin-top: 10px;">
+
+    </div>
+
+
+</body>
+
+<script>
+    $(document).ready(() => {
+        $("#btn").click((e) => {
+            e.preventDefault();
+
+            let data = $("#text").val();
+            $("img").remove();
+
+            $.ajax({
+                method: "POST",
+                url: "/image",
+                data: { url: data },
+            }).done((e) => {
+                if (e) {
+
+                    $("#text").val(null);
+
+                    let img = document.createElement("img");
+                    img.src = e.url;
+                    img.width = 1000;
+                    img.height = 600;
+
+                    let divElement = document.getElementById("img");
+                    divElement.appendChild(img);
+                }
+            }).fail((er) => {
+                console.log(er);
+            })
+
+        })
+    })
+</script>
+
+</html>
